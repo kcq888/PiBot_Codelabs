@@ -1,0 +1,457 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Raspberry Pi Robot</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="pibot"
+                  title="Raspberry Pi Robot"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="Overview" duration="0">
+        <p>A Raspberry Pi Robot is a popular projects all over the internet and there are many blog posts on this subject. In this codelab, we will present the step by step instructions for building the Rasberry Pi Robot.</p>
+<p>What you will learn in this codelab:</p>
+<ul>
+<li>Hardware and Software concepts of the Raspberry Pi, motor and motor controller</li>
+<li>Introduction to the Python programming language</li>
+<li>Sony Gamepad controller</li>
+<li>Program the robot using Python</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Anatomy of the Raspberry Pi" duration="0">
+        <p>Raspberry Pi is a low cost single board computer equipped with USB, ethernet, HDMI, audio, camera, and expansion ports. There are a few Raspberry Pi models.</p>
+<ul>
+<li>Raspberry Pi Zero</li>
+<li>Raspberry Pi 1 Model A+</li>
+<li>Raspberry Pi 2 Model B</li>
+<li>Raspberry Pi 3 Model B</li>
+<li>Raspberry Pi 4 Model B</li>
+</ul>
+<p>In addition, Raspberry Pi model 3 &amp; 4 are equipped with wifi and bluetooth. Please familiarize the model specification at <a href="https://www.raspberrypi.org/" target="_blank">Raspiberrypi.org</a>.</p>
+<p class="image-container"><img alt="Rasberry Pi 3 Model B" src="img/19a93eeebbc27288.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Acquisition of Individual Robot Parts" duration="0">
+        <p>We will be using the Raspberry Pi Model 3 for this build. You will need the following to boot up the Raspberry Pi.</p>
+<ul>
+<li>1x Raspberry Pi 3 Model B</li>
+<li>1x 8 GB or greater class 10 <a href="https://www.amazon.com/Sandisk-Ultra-Micro-UHS-I-Adapter/dp/B073K14CVB/ref=sr_1_15?dchild=1&keywords=8GB+micro+sd+card+class+10&qid=1609352663&sr=8-15" target="_blank">Micro SD Card</a></li>
+<li>USB keyboard and mouse</li>
+<li>1x 5V  2A Micro <a href="https://www.amazon.com/Supply-Adapter-Security-Camera-Raspberry/dp/B071KWFZ9Z/ref=sr_1_2_sspa?crid=2BBMJNLQCOHQ5&dchild=1&keywords=5v+2a+micro+usb+power+supply&qid=1609352743&sprefix=5v+2a+micro+usb%2Caps%2C160&sr=8-2-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUE2VlI5MzE2NVBWVDAmZW5jcnlwdGVkSWQ9QTA5MjMzODlNSjdaTjJYVU5XVlomZW5jcnlwdGVkQWRJZD1BMDczMTEyOTNRWDMyNzU3Wjg3Q1Qmd2lkZ2V0TmFtZT1zcF9hdGYmYWN0aW9uPWNsaWNrUmVkaXJlY3QmZG9Ob3RMb2dDbGljaz10cnVl" target="_blank">USB power supply</a></li>
+<li>HDMI cable</li>
+<li>HDMI compatible monitor</li>
+</ul>
+<p>Notes: If you don&#39;t have an HDMI input, but you have an DVI instead. You can get a HDMI to <a href="https://www.amazon.com/CableCreation-Bi-Directional-Female-Adapter-Conveter/dp/B01FM51PY2/ref=sr_1_4?dchild=1&keywords=hdmi+to+dvi+adapter&qid=1609348431&sr=8-4" target="_blank">DVI adapter</a>.</p>
+<p>The following is a list of motor controller parts:</p>
+<ul>
+<li>1x <a href="https://www.amazon.com/dp/B014KMHSW6/ref=sspa_dk_detail_3?psc=1&pd_rd_i=B014KMHSW6&pd_rd_w=XGJkb&pf_rd_p=7d37a48b-2b1a-4373-8c1a-bdcc5da66be9&pd_rd_wg=AjtGt&pf_rd_r=AAVGZVBN8HP6ZT5VM6S6&pd_rd_r=7bc02fee-cf0b-4028-a817-e29c4f14b70b&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUExMVcxSVhJOFQzVktDJmVuY3J5cHRlZElkPUEwMjAxMDg5MU1TVFU1TFdSSVRJUSZlbmNyeXB0ZWRBZElkPUEwMzc3MzM2MTU1SExTUzBYTlZUQSZ3aWRnZXROYW1lPXNwX2RldGFpbCZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU=" target="_blank">Motor controller</a></li>
+<li>1x <a href="https://www.amazon.com/BBOXIM-Platform-Metal-Chassis-Sliver/dp/B07WD3C81F/ref=psdc_172544_t1_B07VLW8Z3P" target="_blank">Chassis</a></li>
+<li>1x <a href="https://www.amazon.com/REXQualis-120pcs-Breadboard-Arduino-Raspberry/dp/B072L1XMJR/ref=sr_1_1_sspa?dchild=1&keywords=electronics+jumper+wires&qid=1609353044&sr=8-1-spons&psc=1&smid=AX8SR0V05IQ2E&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUExSlZUMU1IVVUzV1RVJmVuY3J5cHRlZElkPUEwMTQ2NTgwSDE3UkMzTzRMQ0w5JmVuY3J5cHRlZEFkSWQ9QTA2NTYzMDQyNUtER0JJWVhRNldCJndpZGdldE5hbWU9c3BfYXRmJmFjdGlvbj1jbGlja1JlZGlyZWN0JmRvTm90TG9nQ2xpY2s9dHJ1ZQ==" target="_blank">Jumper Wires</a></li>
+<li>1x 12 battery power pack</li>
+<li>1x 5v battery power pack</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Preparing and Installing Raspberry Pi OS" duration="0">
+        <p>Raspberry Pi supports a few operating systems. Raspbian is the recommended standard operating system for Raspberry Pi. In this step, we will create the SD card image with the Raspbian OS. To create the SD card image, we recommended the <a href="https://www.balena.io/etcher/" target="_blank">balenaEtcher</a>. Download the following to your computer in a folder.</p>
+<ul>
+<li><a href="https://www.balena.io/etcher/" target="_blank">balenaEtcher</a></li>
+<li><a href="https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2020-12-04/2020-12-02-raspios-buster-armhf.zip" target="_blank">Rasbian Desktop</a></li>
+</ul>
+<p>After the above software have been downloaded, install the balenaEther first onto your computer. Next, insert the micro SD card into the computer&#39;s USB port and launch balenaEther. When balenaEther opens, it is asking for the image to flash and for the destination SD card to flash the image onto. Click the ‘Select image&#39; button to select the Raspbian Desktop OS image, and browse to the image from your folder. Next, click the ‘Select target&#39; button, and browse to the SD card. Finally, click the ‘Flash&#39; button to flash the image onto the SD card. Wait for the flash process to be completed.</p>
+<p>When the flash process is completed, remove the micro SD card and insert into the Raspberry Pi SD card slot. Connect the USB keyboard and mouse, HDMI cable, and power cable to the Raspberry Pi. At this point, the Raspberry Pi should be bootting. When the booting processing is completed, you can view the Raspbian graphical desktop on the monitor. At this point, you have successuflly created the Raspbian OS image and booted the Raspberry Pi.</p>
+<p class="image-container"><img alt="balenaEtcher" src="img/b3fe183c41e85fd7.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Configuring Raspberry Pi OS" duration="0">
+        <p>At the Raspbian Desktop, click on the Raspberry Pi desktop icon menu and select Preferences, then select Raspberry Pi Configuration. The Raspberry Pi Configuration utility will appear. Click the ‘Change Password...&#39; button to change the password.</p>
+<p class="image-container"><img alt="Raspbian System" src="img/46a6d00942cc7d95.png"></p>
+<p>Next, enable the following configuration in the Interface tab of the Raspberry Pi configuraiton utility for the following:</p>
+<ul>
+<li>SSH</li>
+<li>SPI</li>
+<li>I2C</li>
+</ul>
+<p>You might consider to configure the Wifi by connecting to your Wifi. Wifi can be configured via the Raspberry Pi task bar. Click on the Wifi icon to configure. You will need Internet connection to complete the upcoming steps.</p>
+<p class="image-container"><img alt="Raspbian Interface" src="img/c0123c8456b96e7f.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Installing Visual Studio Code" duration="0">
+        <p>Open your favorite browser and navigate to the <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a> download site. Choose the installation package for your operating system and download the installation package. Follow the download instruction and download the package into your directory of choice or your default download directory.</p>
+<p>Once the Visual Studio Code installation package has been downloaded, double click on the installation package to install it. Follow the on screen installation instructions to install Visual Studio Code. Using the default installation settings is recommended.</p>
+<p>Visual Studio Code provides many valuable extensions. These extensions help to increase your development productivity by providing all essential software development tools. The following extensions are recommended for Python development.</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github" target="_blank">Github Pull Request</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python" target="_blank">Python Extensiion</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Your First Hello World Python Program" duration="0">
+        <p>Before we can write the Python Hello World program, we need to make sure that Python is installed on the Raspberry Pi. Open a command prompt (from the Raspbian task bar) by clicking on the command prompt icon.</p>
+<p class="image-container"><img alt="Raspbian Command" src="img/2b63961cf74b2e5.png"></p>
+<p>A new command prompt appears. At the command prompt, type.</p>
+<pre><code>python3 --version
+</code></pre>
+<p>If this command returns Python 3.x.x, then you have Python version 3 installed. Otherwise, install Python version by typing the following at the command prompt.</p>
+<pre><code>sudo apt install python3
+</code></pre>
+<p>This command installs Python version onto the Raspberry Pi. To verify that Python version 3 is properlly installed, type the python3 –version at the command prompt as instructed previously.</p>
+<p>Now, we have Python install, we can create our Hello World program. At the command prompt, type python3. You will see an output similar to the following. The &gt;&gt;&gt; is the Python prompt.</p>
+<pre><code>$ python3
+Python 3.7.3 (default, Jul 25, 2020, 13:03:44)
+[GCC 8.3.0] on Linux
+Type &#34;Help&#34;, &#34;Copyright&#34;, &#34;Credits&#34; or &#34;License&#34; for more information.
+&gt;&gt;&gt;
+</code></pre>
+<p>At the Python prompt &gt;&gt;&gt;, type the following.</p>
+<pre><code>&gt;&gt;&gt;print(&#39;Hello World!&#39;)
+Hello World
+&gt;&gt;&gt;
+</code></pre>
+<p>That is excellent! You have written your first Python program. This is the Python interactive environment for writing Python program. type Ctrl-D to exit the Python interactive environment. This is not the only way to write Python program. You can create a file call hello_world.py and put this line into the file.</p>
+<pre><code>print(&#39;Hello World&#39;)
+</code></pre>
+<p>To run this program at the Raspberry Pi, type the following and give it a try.</p>
+<pre><code>python3 hello_world.py
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Python Introduction" duration="0">
+        <p>While writing Python using an text editor or Integrated Development Environment (IDE) like Visual Studio Code, Python enforces line formating. Python line structure is formatted using the tab indent format on multi-line Python program. The control structure is using the tab indent and colon to separte the programming path of the control statement. For example, the following if else control statement. Note the tab indent, and the colon in the line statement.</p>
+<pre><code>if (2 &lt; 9):
+    print(&#39;2 is less than 9&#39;)
+elif (2 &gt; 1)
+    print(&#39;2 is greater than 1&#39;)
+</code></pre>
+<p>Python is a dynamic programming where a programming problem can be sub-divided into smaller sub-problems. Python supports object-oriented programming constructs. We can model the programming problem into classes. Like other object-oriented programming language, class allows us to encapsulate the data and only expose necessary interface to the class for other objects to communicate with.</p>
+<p>This step is a minimal introduction of the Python programming language so that we can proceed to upcoming step for programming the Robot. For more advanced Python programming concepts, we recommend that you take an introuctory course in Python programming. Many online course providers have excellent Python course such as Udemy or Coursera.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Wiring the Robot" duration="0">
+        <p>In this step, we will wire the Raspberry Pi GPIO pins to the L298N motor controller, and battery and motors to the L298N motor controller. Prior to proceed in this step, ensure that you have the Pibot&#39;s motor, L298N motor controller and chassis are assembled. For Raspberry GPIO pin reference, you can open a terminal in the Raspbian and type ‘pinout&#39;. This <a href="https://pinout.xyz/" target="_blank">Raspberry pinout URL</a> also provides interactive information about the pinout.</p>
+<p class="image-container"><img alt="Pibot Wiring" src="img/62b6bcbc43ed9ddb.png"></p>
+<p>The diagram above shows the PiBot wiring, and the table below provides the detail of wiring. Physical pins are the actually the Raspberry Pi 40 pin connector pin number. You need to refer to the pin 1 orientation on the silk screen on the board. The GPIO pin are the Raspberry Pi pin out labels.</p>
+<table>
+<tr></tr>
+<tr><td colspan="1" rowspan="1"><p>25</p>
+</td><td colspan="1" rowspan="1"><p>22</p>
+</td><td colspan="1" rowspan="1"><p>ENA</p>
+</td><td colspan="1" rowspan="1"><p>Yellow</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>23</p>
+</td><td colspan="1" rowspan="1"><p>16</p>
+</td><td colspan="1" rowspan="1"><p>IN1</p>
+</td><td colspan="1" rowspan="1"><p>White</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>24</p>
+</td><td colspan="1" rowspan="1"><p>18</p>
+</td><td colspan="1" rowspan="1"><p>IN2</p>
+</td><td colspan="1" rowspan="1"><p>Gray</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>27</p>
+</td><td colspan="1" rowspan="1"><p>13</p>
+</td><td colspan="1" rowspan="1"><p>ENB</p>
+</td><td colspan="1" rowspan="1"><p>Blue</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>17</p>
+</td><td colspan="1" rowspan="1"><p>11</p>
+</td><td colspan="1" rowspan="1"><p>IN3</p>
+</td><td colspan="1" rowspan="1"><p>Purple</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>22</p>
+</td><td colspan="1" rowspan="1"><p>15</p>
+</td><td colspan="1" rowspan="1"><p>IN4</p>
+</td><td colspan="1" rowspan="1"><p>Green</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>GND</p>
+</td><td colspan="1" rowspan="1"><p>6</p>
+</td><td colspan="1" rowspan="1"><p>GND</p>
+</td><td colspan="1" rowspan="1"><p>Black</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Robot Drive Train" duration="0">
+        <p>The PiBot drive train is a set of four fixed wheels. The motors are either moving forward or reverse. To turn left or right, the left motors and right motors are turning in their opposite directions. The following diagrams illustrate the Pibot tank drive. Tank drive is a type of drive train that is typically used on robots. There are other type drive trains for robots, and it is left to the reader to do the research to learn about them.</p>
+<h2 is-upgraded>Forward</h2>
+<p class="image-container"><img alt="Forward" src="img/145e6585f19b22f3.png"></p>
+<h2 is-upgraded>Reverse</h2>
+<p class="image-container"><img alt="Reverse" src="img/9ce59b5aa4a8208.png"></p>
+<h2 is-upgraded>Drive Left</h2>
+<p class="image-container"><img alt="Drive Left" src="img/e70b6b674e14c726.png"></p>
+<h2 is-upgraded>Drive Right</h2>
+<p class="image-container"><img alt="Drive Right" src="img/66136204c7da99de.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setting Up the Sony PS3 Game" duration="0">
+        <p>The Sony Playstation 3 Gamepad is used in this project. It is Bluetooth wireless gamepad. The PS3 is six axis gamepad. The Pibot uses the left, right joysticks and the PS button to control the Pibot. Pushing both the left and right joysticks moves the Pibot forward, and pushing both the left and right joysticks moves the Pibot in reverse. Pushing the left and right in opposite direction to make left or right turns.</p>
+<h2 is-upgraded>Bluetooth Pairing</h2>
+<p>We need to first to do the bluetooth pairing with the Raspberry Pi. Follow this <a href="https://www.piborg.org/blog/rpi-ps3-help" target="_blank">PS3 Pairing</a> to pair the PS3 controller. Note that this blog mentioned Jessie and Jessie Lite OS, but these steps work with the latest Buster Raspbian OS.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Developing the Python Robot Program" duration="0">
+        <p>Now that we have the PiBot wiring completed and PS3 controller configured. In this step, we will create a Python program to operate the Pibot. The python RPi.GPIO package is already installed when you create the Raspbian Buster image. The Gamepad python package needs to be installed. Follow this blog post to clone the project. <a href="https://www.piborg.org/blog/gamepad-library" target="_blank">Gamepad</a>. After the Gamepad repository is clone, create the pibot directory under your root folder.</p>
+<pre><code>mkdir ~/pibot
+</code></pre>
+<p>Copy Controllers.py and Gamepad.py from the Gamepad repository to the pibot folder and open the pibot folder with Visual Studio Code. In Visual Studio Code, create the following two files by using the New File button in the Visual Studio Code Explorer.</p>
+<pre><code>Robot.py
+Motor.py
+</code></pre>
+<p>In Visual Studio Code, open the Motor.py file. At the top of the file, we need to import the RPi.GPIO. Type the following line. The Python import keyword ‘import&#39; import the RPi.GPIO library that we can use in our code. The ‘as gpio&#39; says that we can refer this library as gpio in our code.</p>
+<pre><code>import RPi.GPIO as gpio
+</code></pre>
+<p>Next, we are going to create the Motor class. In Visual Studio Code, open a two lines after the import statement. Type cl. After you type cl, the VSC intellisense dialog is opened. Scroll down and select class.</p>
+<p class="image-container"><img alt="Class Intellisense" src="img/dd58a657954ea71e.png"></p>
+<p>A new class is create with the name classname. Type Motor to change the class without moving your mouse. The class should look like this.</p>
+<pre><code>class Motor(object):
+    &#34;&#34;&#34;
+    docstring
+    &#34;&#34;&#34;
+    pass
+</code></pre>
+<p>Python block comment starts with the three quotes and end with three quotes on multiple lines. The text in between are comments. Single line comment starts with the three quotes and end with the three quotes on the same line. We use comments to document our code. So now that we have an empty Motor class. We need to define what this class should do for us. This Motor class responsibility is to initialize the GPIO pins connected to the L298N motor controller and provides methods to drive and to stop the motor. We would like this class to handle either the left and right motors. To meet this requirement, we will have a constructor to take the forward, reverse, and pwm pins arguments. The pwm pin is for controlling speed. Below the class comment, add the following to define class member fields.</p>
+<pre><code>    _forward = None
+    _reverse = None
+    _pwm = None
+    _pwmdrive = None
+</code></pre>
+<p>Add the constructor to the Motor class. The _pwmdrive variable is the GPIO&#39;s pwm object. PWM stands for Pulse Width Modulation. It is used to control the speed of the motors. GPIO uses software PWM to control the motors. In Python class, it is important to note that the self keyword. This keyboard is used to refer to class member fields or variables. In addition, class method first argument needs to include the self keyboard so that the method can reference the class variables.</p>
+<pre><code>    &#34;&#34;&#34; constructor &#34;&#34;&#34;
+    def __init__(self, forward, reverse, pmw):
+        super().__init__()
+        self._forward = forward
+        self._reverse = reverse
+        self._pwm = pmw
+
+        gpio.setup(self._forward, gpio.OUT)
+        gpio.setup(self._reverse, gpio.OUT)
+        gpio.setup(self._pwm, gpio.OUT)
+        gpio.output(self._forward, gpio.LOW)
+        gpio.output(self._reverse, gpio.LOW)
+        self._pwmdrive = gpio.PWM(self._pwm, 100)
+</code></pre>
+<p>Next, we need a drive and a stop methods. When we receive joystick inputs from the PS3 controller, the values are between -1 to 1. The max forward value is -1, and max reverse value is 1. In the constructor, we assigned the value of 100 to the frequency parameter. This frequency parameter is used to control the speed of the motors. You can google to learn more about PWM.</p>
+<pre><code>    def drive(self, speed):
+        drivespeed = speed*100
+        if (speed &lt; 0):
+            gpio.output(self._forward, gpio.HIGH)
+            gpio.output(self._reverse, gpio.LOW)
+            drivespeed = -(speed*100)
+        else:
+            gpio.output(self._forward, gpio.LOW)
+            gpio.output(self._reverse, gpio.HIGH)
+        #print(f&#39;input speed = {speed:.2f} driver speed {drivespeed:.2f}&#39;)
+        self._pwmdrive.start(drivespeed)
+
+    def stop(self):
+        gpio.output(self._forward, gpio.LOW)
+        gpio.output(self._reverse, gpio.LOW)
+</code></pre>
+<p>In the drive method, we control the forward or reverse direction using the input speed. If the speed is negative, we programmed the forward pin to high, and the reverse pin to low. If the speed is positive, we programmed the forward pin to low, and the reverse pin to high. These voltage levels are required by the L298N motor controller to control the motor directions. When the forward and reverse are low, the motors are stopped.</p>
+<p>Now, that we have completed the Motor class. We need to use it in the Robot class. The Robot class&#39;s responsibility is to instantiate the corresponding instances of the Motor class, and the instance of the Gamepad class. It also initialize the Gamepad instance and setup the background processing of the Gamepad instance to receive inputs. The Robot run method is used to poll the Gamepad inputs and sends the speed input to the Motor class instances. There are two other helper methods to process Gamepad button input and Gamepad connection.</p>
+<p>Open the Robot.py in Visual Studio Code, and follow the instructions above to create a class using Visual Studio Intellisense. Modify the classname to Robot. In the Robot class, we need to define the GPIO pin and Gamepad definitions. Add the following after the class comments.</p>
+<pre><code>    # GPIO PIN definitions
+    LEFT_MOTOR_FORWARD = 17     # physical pin 11
+    LEFT_MOTOR_REVERSE = 22     # physical pin 15
+    LEFT_MOTOR_PWM = 25         # physical pin 22 
+    RIGHT_MOTOR_FORWARD = 23    # physical pin 16 
+    RIGHT_MOTOR_REVERSE = 24    # physical pin 18
+    RIGHT_MOTOR_PWM = 27        # physical pin 13
+
+    # Gamepad constants
+    BUTTON_EXIT = &#39;PS&#39;
+    BUTTON_LEFT_1 = &#39;L1&#39;
+    AXIS_LEFT_Y = &#39;LEFT-Y&#39;
+    AXIS_RIGHT_Y = &#39;RIGHT-Y&#39;
+</code></pre>
+<p>The Robot class constructor initialize the GPIO library and creates the left and right motor instances. We are using the GPIO.BCM or Broadcom General Purpose Input/Output pins. GPIO.Board is the physical pin mapping and as you see the comment in the definitions, we are not using the physical pin mapping. We also needs to define class variables for these initialization. After that, we can add the constructor to the Robot class.</p>
+<p>Robot Class variables:</p>
+<pre><code>    _running = True
+    _leftmotor = None
+    _rightmotor = None
+    _gamepadType = Gamepad.PS3
+    _gamepad = None
+    _pollingInterval = 0.5 
+</code></pre>
+<p>Robot Class constructor:</p>
+<pre><code>    def __init__(self):
+        super().__init__()
+        gpio.setmode(gpio.BCM)
+        gpio.setwarnings(False)
+        self._leftmotor = Motor(self.LEFT_MOTOR_FORWARD, self.LEFT_MOTOR_REVERSE, self.LEFT_MOTOR_PWM)
+        self._rightmotor = Motor(self.RIGHT_MOTOR_FORWARD, self.RIGHT_MOTOR_REVERSE, self.RIGHT_MOTOR_PWM)
+</code></pre>
+<p>Robot Class helper methods:</p>
+<pre><code>    def checkGamePadConnection(self):
+        print(&#39;Please connect your gamepad...&#39;)
+        while not Gamepad.available():
+            time.sleep(1.0)
+        self._gamepad = self._gamepadType()
+        
+    def onButtonExitPressed(self):
+        print(&#39;Exit Button Pressed\n&#39;)
+        self._running = False
+</code></pre>
+<p>Robot Class operational method:</p>
+<pre><code>    def run(self):
+        self.checkGamePadConnection()
+        self._gamepad.startBackgroundUpdates()
+        self._gamepad.addButtonPressedHandler(self.BUTTON_EXIT, self.onButtonExitPressed)
+
+        try:
+            creep_factor = 1.0
+            while self._running and self._gamepad.isConnected():
+                # check creep mode
+                if (self._gamepad.beenPressed(self.BUTTON_LEFT_1)):
+                    creep_factor = 0.2
+                    #print(&#39;L1 Button pressed {creep_factor:.2f}&#39;)
+                elif (self._gamepad.beenReleased(self.BUTTON_LEFT_1)):
+                    creep_factor = 1
+                    #print(&#39;L1 Button released {creep_factor:.2f}&#39;)
+                # get the axis speed
+                leftAxisSpeed = self._gamepad.axis(self.AXIS_LEFT_Y)
+                rightAxisSpeed = self._gamepad.axis(self.AXIS_RIGHT_Y)
+                self._leftmotor.drive(leftAxisSpeed*creep_factor)
+                self._rightmotor.drive(-rightAxisSpeed*creep_factor)
+                time.sleep(self._pollingInterval)
+        except RuntimeError as error:
+            print(error)
+        finally:
+            self._gamepad.disconnect()
+            gpio.cleanup()
+
+</code></pre>
+<p>In the run method, we check for the LEFT button press on the gamepad. We use this button to turn on the creep mode. Finally, we need a program entry point to start the Robot. In this main entry point, we create the Robot class instance and call the run method.</p>
+<pre><code>#==============================================================================
+# Robot main - start of the Robot program
+#==============================================================================
+if __name__ == &#34;__main__&#34;:
+    print(&#34;Robot Start!&#34;)
+
+    robot = Robot()
+    robot.run()
+</code></pre>
+<p>That is it, when you type the following in the Raspberry Pi&#39;s terminal, the Pibot should run. A note of caution, make sure that you have raised the Pibot off the surface, otherwise, will run off where ever it might be. You can also run this program in Visual Studio Code. We will cover that in the next step.</p>
+<p>We have covered basic Python object-oriented programming when we created the Motor and Robot classes. We like to encourage you to find additional reading materials on this topic to further your understanding of Python Object-Oriented programming concepts.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Trouble-shooting Python Code" duration="0">
+        <p>Visual Studio Code is a versatile editor. It is a development environment which has a text editor, but it also incorporate many development features like debugging code and source code management like git. Git is integrated in Visual Studio, and it is the third icon down on the vertical button bar. To debug a Python file, all we have to do is open it in the editor. Click the Run icon on the vertical button bar or Ctrl+Shift+D. It open the Run panel. Click the Run and Debug button to start debugging. You can set breakpoint in the Python source code by placing the mouse pointer to the beginning of the line of code that you want to set breakpoint to. A red dot will appear. Click on the read dot to set the breakpoint. When you click the Run and Debug button, the Visual Studio Code command bar will popup, select Python File to debug.</p>
+<p class="image-container"><img alt="Select" src="img/6eb50e5b7559b28a.png"></p>
+<p>You can also create the launch.json file to customize the debugging experience. Click the ‘create a launch.json file&#39; link to create this file. When you click this link, it will download the necessary package for debugging and generate the file.</p>
+<p class="image-container"><img alt="Run" src="img/d05c8fd47b8a8700.png"></p>
+<p>In addition to using Visual Studio Code to debug Python code, we use the Python print statement to output debug information to the console. After the launch.json has been create, the next time when you want to start the debug session, just click the Run icon to start the session.</p>
+<p class="image-container"><img alt="Run Icon" src="img/d51d8430c985c11c.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Start Pibot Program automatically" duration="0">
+        <p>After we are happy with the PiBot Python code, and we can control the Pibot via the gamepad, we want to have our Python program to start automatically when the Raspberry Pi boot. The reason that we want to do is is that when we are driving the Pibot, there are no screen, keyboard or mouse connected. We can&#39;t start the Python program in this environment. There are multiple method to start a program upon boot. We are using sysvinit. In addition, we want to configure the Raspberry Pi only boot to console only. Run the Raspberry Pi configuration utility and select boot to CLI. First, we need to create a new file in Visual Studio Code and named it pibot.sh. Append the code below to this file.</p>
+<pre><code>#! /bin/sh
+# /etc/init.d/pibot
+
+### BEGIN INIT INFO
+# Provides:          pibot
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Description:       A script to start the pibot python program on boot
+### END INIT INFO
+
+# If you want a command to always run, put it here
+
+# Carry out specific functions when asked to by the system
+case &#34;$1&#34; in
+  start)
+    echo &#34;Starting pibot&#34;
+    # run application you want to start
+    /usr/bin/python3 /home/pi/pibot/Robot.py
+    ;;
+  stop)
+    echo &#34;Stopping pibot&#34;
+    # kill application you want to stop
+    pkill -f Robot.py
+    ;;
+  *)
+    echo &#34;Usage: /etc/init.d/pibot {start|stop}&#34;
+    exit 1
+    ;;
+esac
+
+exit 0
+</code></pre>
+<p>Next, we need to copy this script to /etc/init.d/ folder and change the permission to the file</p>
+<pre><code>sudo cp pibot.sh /etc/init.d
+cd /etc/init.d
+sudo chmod 755 pitbot.sh
+</code></pre>
+<p>To test starting the program:</p>
+<pre><code>sudo /etc/init.d/pibot start
+</code></pre>
+<p>To test stopping the program:</p>
+<pre><code>sudo /etc/init.d/pibot stop
+</code></pre>
+<p>Finally, we have to register the script to run at start-up:</p>
+<pre><code>sudo update-rc.d /etc/init.d/pibot.sh defaults
+</code></pre>
+<p>Power down the Raspberry Pi, and remove display, keyboard and mouse. Attached Raspberry Pi battery, and power on the L298N battery. Wait until the Pibot is fully started, then press the PS3&#39;s PS button. When the PS3 is connected, a single LED should be lit. You should be able to drive the Robot.</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>

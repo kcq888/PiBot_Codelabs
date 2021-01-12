@@ -1,0 +1,24 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-01-11T22:48:58-05:00",
+  "id": "pibot",
+  "duration": 0,
+  "title": "Raspberry Pi Robot",
+  "authors": "Kevin Quan",
+  "summary": "Raspberry Pi Robot Concepts with Python",
+  "source": "pibot_codelab.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "raspberry pi robot"
+  ],
+  "tags": [
+    "intermediate"
+  ],
+  "url": "pibot"
+}
